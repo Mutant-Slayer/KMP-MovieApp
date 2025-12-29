@@ -8,10 +8,13 @@ import io.ktor.client.request.parameter
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.example.kmp.movieapp.domain.MovieDetails
+import org.example.kmp.movieapp.domain.MovieSearchResult
 import org.example.kmp.movieapp.domain.Search
 
-class ApiClient(private val baseUrl: String = "https://www.omdbapi.com") {
-
+class ApiClient(
+    private val baseUrl: String = "https://www.omdbapi.com",
+    private val apiKey: String = "b75e96af"
+) {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json(Json {
@@ -25,8 +28,7 @@ class ApiClient(private val baseUrl: String = "https://www.omdbapi.com") {
     suspend fun getSearchedMovieResult(
         query: String,
         pageNumber: Int,
-        apiKey: String = "b75e96af"
-    ): Search {
+    ): MovieSearchResult {
         return client.get(baseUrl) {
             parameter("s", query)
             parameter("page", pageNumber)
@@ -36,7 +38,6 @@ class ApiClient(private val baseUrl: String = "https://www.omdbapi.com") {
 
     suspend fun getMovieDetails(
         imdbId: String,
-        apiKey: String = "b75e96af"
     ): MovieDetails {
         return client.get(baseUrl) {
             parameter("i", imdbId)

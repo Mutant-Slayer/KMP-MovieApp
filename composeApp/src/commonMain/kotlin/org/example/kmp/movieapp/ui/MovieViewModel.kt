@@ -48,12 +48,30 @@ class MovieViewModel(
     }
 
     fun searchMovies(query: String) {
-//        viewModelScope.launch {
-//            movieRepository.getSearchedMovieResult(query).cachedIn(viewModelScope)
-//                .collect { pagingData ->
-//                    _searchResult.update { pagingData }
-//                }
-//        }
+        _searchResult.update { it.copy(screenState = ScreenUiState.Loading) }
+        viewModelScope.launch {
+            when (val result = movieRepository.getSearchedMovieResult(query)) {
+                is RequestResult.Success -> {
+                    _searchResult.update {
+                        it.copy(
+                            screenState = ScreenUiState.Success,
+                            data = result.data.search
+                        )
+                    }
+                }
+
+                is RequestResult.Error -> {
+                    _searchResult.update {
+                        it.copy(
+                            screenState = ScreenUiState.Error,
+                            errorMessage = result.message
+                        )
+                    }
+                }
+
+                else -> {}
+            }
+        }
     }
 
     fun getMovieDetails(imdbId: String) {
