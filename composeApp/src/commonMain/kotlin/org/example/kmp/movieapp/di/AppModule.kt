@@ -1,5 +1,12 @@
 package org.example.kmp.movieapp.di
 
+import io.ktor.client.HttpClient
+import io.ktor.client.plugins.DefaultRequest
+import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.request.header
+import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.json.Json
+import org.example.kmp.movieapp.config.BuildKonfig
 import org.example.kmp.movieapp.data.ApiClient
 import org.example.kmp.movieapp.data.MovieRepository
 import org.example.kmp.movieapp.data.MovieRepositoryImpl
@@ -8,10 +15,29 @@ import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
+import org.koin.dsl.onClose
 
 val appModule = module {
+    single {
+        HttpClient {
+            install(ContentNegotiation) {
+                json(Json {
+                    ignoreUnknownKeys = true
+                    isLenient = true
+                    prettyPrint = true
+                })
+            }
+
+            install(DefaultRequest) {
+                header("Authorization", "Bearer ${BuildKonfig.MOVIE_API_KEY}")
+                header("accept", "application/json")
+            }
+        }
+    } onClose {
+        it?.close()
+    }
     viewModel { MovieViewModel(get()) }
-    single { ApiClient() }
+    single { ApiClient(get()) }
     single<MovieRepository> { MovieRepositoryImpl(get()) }
 }
 
