@@ -24,6 +24,7 @@ sqlDelight = "2.2.1"
 composeIcons = "1.1.0"
 logging = "2.0.8"
 kotlinx-datetime = "0.7.1"
+buildkonfig = "0.15.1"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -81,6 +82,7 @@ kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref =
 jetbrains-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
 
 [bundles]
 ktor = [

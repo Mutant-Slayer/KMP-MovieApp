@@ -32,7 +32,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import compose.icons.TablerIcons
 import compose.icons.tablericons.MoodEmpty
-import org.example.kmp.movieapp.domain.SearchUiState
+import org.example.kmp.movieapp.domain.PopularMoviesUiState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -40,6 +40,7 @@ fun MovieSearchScreen(
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = koinViewModel()
 ) {
+    val popularMovieUiState by viewModel.popularMovies.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
     val searchUiState by viewModel.searchResult.collectAsStateWithLifecycle()
 
@@ -80,7 +81,7 @@ fun MovieSearchScreen(
     ) { paddingValues ->
         MovieLists(
             modifier = modifier.padding(top = paddingValues.calculateTopPadding()),
-            searchUiState = searchUiState,
+            searchUiState = popularMovieUiState,
             onClick = { }
         )
     }
@@ -89,8 +90,8 @@ fun MovieSearchScreen(
 @Composable
 fun MovieLists(
     modifier: Modifier = Modifier,
-    searchUiState: SearchUiState,
-    onClick: (String) -> Unit,
+    searchUiState: PopularMoviesUiState,
+    onClick: (Int) -> Unit,
 ) {
     when (searchUiState.screenState) {
         ScreenUiState.Loading -> {
@@ -115,7 +116,7 @@ fun MovieLists(
         }
 
         ScreenUiState.Success -> {
-            val movieList = searchUiState.data
+            val movieList = searchUiState.data?.results
 
             if (movieList != null) {
                 Column(
@@ -126,7 +127,7 @@ fun MovieLists(
                     movieList.forEach { item ->
                         Card(
                             modifier = Modifier
-                                .clickable { onClick(item.imdbID) }
+                                .clickable { onClick(item.id) }
                                 .fillMaxWidth()
                                 .padding(horizontal = 4.dp),
                             border = BorderStroke(width = 1.dp, color = Color.Black),
@@ -143,7 +144,7 @@ fun MovieLists(
                                 horizontalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
                                 AsyncImage(
-                                    model = item.poster,
+                                    model = "https://image.tmdb.org/t/p/w342/${item.posterPath}",
                                     contentDescription = item.title,
                                     modifier = Modifier
                                         .size(80.dp)
@@ -152,7 +153,7 @@ fun MovieLists(
                                 )
                                 Column(modifier = Modifier.weight(1f)) {
                                     Text(text = "Title : " + item.title)
-                                    Text(text = "Released in : " + item.year)
+                                    Text(text = "Language : " + item.originalLanguage)
                                 }
                             }
                         }

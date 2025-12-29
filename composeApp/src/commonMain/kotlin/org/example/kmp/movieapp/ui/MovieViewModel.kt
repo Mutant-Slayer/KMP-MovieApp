@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.example.kmp.movieapp.data.MovieRepository
 import org.example.kmp.movieapp.domain.MovieDetailsUiState
+import org.example.kmp.movieapp.domain.PopularMoviesUiState
 import org.example.kmp.movieapp.domain.RequestResult
 import org.example.kmp.movieapp.domain.SearchUiState
 
@@ -28,7 +29,11 @@ class MovieViewModel(
     private val _movieDetails = MutableStateFlow(MovieDetailsUiState())
     val movieDetails = _movieDetails.asStateFlow()
 
+    private val _popularMovies = MutableStateFlow(PopularMoviesUiState())
+    val popularMovies = _popularMovies.asStateFlow()
+
     init {
+        getMovieList()
         viewModelScope.launch {
             searchQuery
                 .debounce(300)
@@ -45,6 +50,33 @@ class MovieViewModel(
 
     fun setSearchQuery(query: String) {
         _searchQuery.update { query }
+    }
+
+    fun getMovieList() {
+        _popularMovies.update { it.copy(screenState = ScreenUiState.Loading) }
+        viewModelScope.launch {
+            when (val result = movieRepository.getPopularMovieList()) {
+                is RequestResult.Success -> {
+                    _popularMovies.update {
+                        it.copy(
+                            screenState = ScreenUiState.Success,
+                            data = result.data
+                        )
+                    }
+                }
+
+                is RequestResult.Error -> {
+                    _popularMovies.update {
+                        it.copy(
+                            screenState = ScreenUiState.Error,
+                            errorMessage = result.message
+                        )
+                    }
+                }
+
+                else -> {}
+            }
+        }
     }
 
     fun searchMovies(query: String) {

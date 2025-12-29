@@ -1,4 +1,6 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -8,7 +10,16 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.sqldelight)
+    alias(libs.plugins.buildkonfig)
 }
+
+val localProperties = Properties()
+val localPropertiesFile = rootProject.file("local.properties")
+if (localPropertiesFile.exists()) {
+    localProperties.load(localPropertiesFile.inputStream())
+}
+
+val movieApiKey = localProperties.getProperty("movieApiKey") ?: ""
 
 kotlin {
     androidTarget {
@@ -32,6 +43,14 @@ kotlin {
             create("AppDatabase") {
                 packageName.set("com.yourpackage.database")
             }
+        }
+    }
+
+    buildkonfig {
+        packageName = "org.example.kmp.movieapp.config"
+
+        defaultConfigs {
+            buildConfigField(STRING, "MOVIE_API_KEY", movieApiKey)
         }
     }
 
