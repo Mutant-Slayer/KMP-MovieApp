@@ -1,7 +1,9 @@
 package org.example.kmp.movieapp.domain
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieDetails(
     @SerialName("Title")
     val title: String,

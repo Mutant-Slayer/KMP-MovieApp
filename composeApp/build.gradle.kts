@@ -65,6 +65,7 @@ kotlin {
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
             implementation(libs.sqldelight.android)
+            implementation(libs.tabler.icons)
         }
         nativeMain.dependencies {
             implementation(libs.ktor.client.darwin)
