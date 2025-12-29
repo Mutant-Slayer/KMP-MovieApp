@@ -5,7 +5,7 @@ import org.example.kmp.movieapp.domain.RequestResult
 import org.example.kmp.movieapp.domain.Search
 
 class MovieRepositoryImpl(
-    private val apiClient: ApiInterface
+    private val apiClient: ApiClient
 ) : MovieRepository {
 
     override suspend fun getSearchedMovieResult(query: String): RequestResult<Search> {

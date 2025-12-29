@@ -36,16 +36,6 @@ kotlin {
     }
 
     sourceSets {
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
-
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.sqldelight.runtime)
-            implementation(libs.sqldelight.coroutines)
-        }
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -57,17 +47,27 @@ kotlin {
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.jetbrains.compose.navigation)
             implementation(libs.kotlinx.serialization.json)
-            implementation(libs.sqlite.bundled)
+            api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
-            api(libs.koin.core)
-
+            implementation(libs.sqldelight.runtime)
+            implementation(libs.sqldelight.coroutines)
             implementation(libs.bundles.ktor)
             implementation(libs.bundles.coil)
-            implementation(libs.sqldelight.android)
             implementation(libs.tabler.icons)
+            implementation(libs.kermit.logging)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.sqlite.bundled)
         }
-        nativeMain.dependencies {
+        androidMain.dependencies {
+            implementation(compose.preview)
+            implementation(libs.androidx.activity.compose)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.android)
+        }
+        iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
             implementation(libs.sqldelight.native)
         }

@@ -36,7 +36,7 @@ import org.example.kmp.movieapp.domain.SearchUiState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun SearchScreen(
+fun MovieSearchScreen(
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = koinViewModel()
 ) {

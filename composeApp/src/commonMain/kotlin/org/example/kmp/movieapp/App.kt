@@ -1,9 +1,9 @@
 package org.example.kmp.movieapp
 
 import androidx.compose.runtime.Composable
-import org.example.kmp.movieapp.ui.SearchScreen
+import org.example.kmp.movieapp.ui.MovieSearchScreen
 
 @Composable
 fun App() {
-    SearchScreen()
+    MovieSearchScreen()
 }

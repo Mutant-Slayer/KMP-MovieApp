@@ -10,7 +10,7 @@ import kotlinx.serialization.json.Json
 import org.example.kmp.movieapp.domain.MovieDetails
 import org.example.kmp.movieapp.domain.Search
 
-class ApiInterface(private val baseUrl: String = "https://www.omdbapi.com") {
+class ApiClient(private val baseUrl: String = "https://www.omdbapi.com") {
 
     private val client = HttpClient {
         install(ContentNegotiation) {
