@@ -50,14 +50,9 @@ class ApiClient(
     }
 
     suspend fun getMovieDetails(
-        imdbId: String,
+        movieId: Int,
     ): MovieDetails {
-        return client.get(baseUrl) {
-            parameter("i", imdbId)
+        return client.get("$baseUrl/3/movie/${movieId}") {
         }.body()
-    }
-
-    fun close() {
-        client.close()
     }
 }

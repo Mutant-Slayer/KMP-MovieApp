@@ -9,5 +9,5 @@ interface MovieRepository {
 
     suspend fun getSearchedMovieResult(query: String): RequestResult<PopularMovieList>
 
-    suspend fun getMovieDetails(imdbId: String): RequestResult<MovieDetails>
+    suspend fun getMovieDetails(movieId: Int): RequestResult<MovieDetails>
 }

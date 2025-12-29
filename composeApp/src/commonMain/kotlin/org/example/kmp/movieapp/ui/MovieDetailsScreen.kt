@@ -7,10 +7,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -25,23 +28,40 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
 import compose.icons.TablerIcons
+import compose.icons.tablericons.ArrowBackUp
 import compose.icons.tablericons.Loader
 import org.example.kmp.movieapp.domain.MovieDetailsUiState
 import org.koin.compose.viewmodel.koinViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MovieDetailScreen(
     modifier: Modifier = Modifier,
-    imdbId: String,
-    viewModel: MovieViewModel = koinViewModel()
+    movieId: Int,
+    viewModel: MovieViewModel = koinViewModel(),
+    onBackClick: () -> Unit,
 ) {
     val movieDetails by viewModel.movieDetails.collectAsStateWithLifecycle()
 
-    LaunchedEffect(imdbId) {
-        viewModel.getMovieDetails(imdbId)
+    LaunchedEffect(movieId) {
+        viewModel.getMovieDetails(movieId)
     }
 
-    Scaffold { paddingValues ->
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Movie Details") },
+                navigationIcon = {
+                    IconButton(onClick = onBackClick) {
+                        Icon(
+                            imageVector = TablerIcons.ArrowBackUp,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
         MovieDetails(
             modifier = modifier.padding(top = paddingValues.calculateTopPadding()),
             movieDetails = movieDetails
@@ -96,7 +116,7 @@ fun MovieDetails(modifier: Modifier = Modifier, movieDetails: MovieDetailsUiStat
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         AsyncImage(
-                            model = movie.poster,
+                            model = "https://image.tmdb.org/t/p/w342/${movie.posterPath}",
                             contentDescription = movie.title,
                             modifier = Modifier
                                 .clip(RoundedCornerShape(4.dp)),
@@ -109,31 +129,20 @@ fun MovieDetails(modifier: Modifier = Modifier, movieDetails: MovieDetailsUiStat
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center
                         )
+                        Text(text = "Release Year", fontWeight = FontWeight.Bold)
                         Text(
-                            text = movie.year,
+                            text = movie.releaseDate.take(4),
                             style = MaterialTheme.typography.bodyMedium,
                             fontSize = 16.sp,
                         )
-                        Text(text = "Plot", fontWeight = FontWeight.Bold)
-                        Text(text = movie.plot, textAlign = TextAlign.Center)
-                        Text(text = "Genre", fontWeight = FontWeight.Bold)
-                        Text(
-                            text = movie.genre,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(text = "Director", fontWeight = FontWeight.Bold)
-                        Text(
-                            text = movie.director,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center
-                        )
-                        Text(text = "Actors", fontWeight = FontWeight.Bold)
-                        Text(
-                            text = movie.actors,
-                            style = MaterialTheme.typography.bodyMedium,
-                            textAlign = TextAlign.Center
-                        )
+                        Text(text = "Genres", fontWeight = FontWeight.Bold)
+                        movie.genres.forEach {
+                            Text(
+                                text = it.name,
+                                style = MaterialTheme.typography.bodyMedium,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                     }
                 }
             }

@@ -35,7 +35,8 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun MovieListScreen(
     modifier: Modifier = Modifier,
-    viewModel: MovieViewModel = koinViewModel()
+    viewModel: MovieViewModel = koinViewModel(),
+    onMovieClick: (Int) -> Unit
 ) {
     val popularMovieUiState by viewModel.popularMovies.collectAsStateWithLifecycle()
     val searchQuery by viewModel.searchQuery.collectAsStateWithLifecycle()
@@ -85,7 +86,7 @@ fun MovieListScreen(
         MovieLists(
             modifier = modifier.padding(top = paddingValues.calculateTopPadding()),
             moviesUiState = uiStateToShow,
-            onClick = { }
+            onClick = onMovieClick
         )
     }
 }

@@ -25,9 +25,9 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getMovieDetails(imdbId: String): RequestResult<MovieDetails> {
+    override suspend fun getMovieDetails(movieId: Int): RequestResult<MovieDetails> {
         return try {
-            val response = apiClient.getMovieDetails(imdbId)
+            val response = apiClient.getMovieDetails(movieId)
             RequestResult.Success(response)
         } catch (e: Exception) {
             RequestResult.Error(e.message ?: "Unknown Error")

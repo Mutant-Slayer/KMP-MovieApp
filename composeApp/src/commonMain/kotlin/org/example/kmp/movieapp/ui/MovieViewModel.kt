@@ -105,10 +105,10 @@ class MovieViewModel(
         }
     }
 
-    fun getMovieDetails(imdbId: String) {
+    fun getMovieDetails(movieId: Int) {
         _movieDetails.update { it.copy(screenState = ScreenUiState.Loading) }
         viewModelScope.launch {
-            when (val result = movieRepository.getMovieDetails(imdbId)) {
+            when (val result = movieRepository.getMovieDetails(movieId)) {
                 is RequestResult.Success -> {
                     _movieDetails.update {
                         it.copy(
