@@ -17,7 +17,6 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,8 +29,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil3.compose.AsyncImage
-import compose.icons.TablerIcons
-import compose.icons.tablericons.MoodEmpty
 import org.example.kmp.movieapp.domain.PopularMoviesUiState
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -79,7 +76,7 @@ fun MovieListScreen(
             )
         }
     ) { paddingValues ->
-        val uiStateToShow = if (searchUiState.data?.results?.isNotEmpty() == true) {
+        val uiStateToShow = if (searchQuery.isNotEmpty() && searchQuery.length >= 3) {
             searchUiState
         } else {
             popularMovieUiState
@@ -164,16 +161,6 @@ fun MovieLists(
                             }
                         }
                     }
-                }
-            } else {
-                Box(
-                    modifier = modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = TablerIcons.MoodEmpty,
-                        contentDescription = "No results found"
-                    )
                 }
             }
         }
