@@ -1,5 +1,6 @@
 package org.example.kmp.movieapp.di
 
+import co.touchlab.kermit.Logger
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.DefaultRequest
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -11,6 +12,8 @@ import org.example.kmp.movieapp.data.ApiClient
 import org.example.kmp.movieapp.data.MovieRepository
 import org.example.kmp.movieapp.data.MovieRepositoryImpl
 import org.example.kmp.movieapp.ui.MovieViewModel
+import org.example.kmp.movieapp.util.AppLogger
+import org.example.kmp.movieapp.util.AppLoggerImpl
 import org.koin.core.context.startKoin
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.KoinAppDeclaration
@@ -37,8 +40,10 @@ val appModule = module {
         it?.close()
     }
     viewModel { MovieViewModel(get()) }
-    single { ApiClient(get()) }
+    single { ApiClient(get(), get()) }
     single<MovieRepository> { MovieRepositoryImpl(get()) }
+    single { Logger.withTag("KMP App") }
+    single<AppLogger> { AppLoggerImpl(get()) }
 }
 
 fun initKoin(config: KoinAppDeclaration? = null) {
