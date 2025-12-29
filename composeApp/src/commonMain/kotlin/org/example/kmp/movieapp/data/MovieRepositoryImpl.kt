@@ -1,7 +1,6 @@
 package org.example.kmp.movieapp.data
 
 import org.example.kmp.movieapp.domain.MovieDetails
-import org.example.kmp.movieapp.domain.MovieSearchResult
 import org.example.kmp.movieapp.domain.PopularMovieList
 import org.example.kmp.movieapp.domain.RequestResult
 
@@ -17,7 +16,7 @@ class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun getSearchedMovieResult(query: String): RequestResult<MovieSearchResult> {
+    override suspend fun getSearchedMovieResult(query: String): RequestResult<PopularMovieList> {
         return try {
             val response = apiClient.getSearchedMovieResult(query, 1)
             RequestResult.Success(response)

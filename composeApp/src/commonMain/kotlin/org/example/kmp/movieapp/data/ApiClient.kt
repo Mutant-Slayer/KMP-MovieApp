@@ -11,7 +11,6 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import org.example.kmp.movieapp.config.BuildKonfig
 import org.example.kmp.movieapp.domain.MovieDetails
-import org.example.kmp.movieapp.domain.MovieSearchResult
 import org.example.kmp.movieapp.domain.PopularMovieList
 
 class ApiClient(
@@ -43,9 +42,9 @@ class ApiClient(
     suspend fun getSearchedMovieResult(
         query: String,
         pageNumber: Int,
-    ): MovieSearchResult {
-        return client.get("$baseUrl/") {
-            parameter("s", query)
+    ): PopularMovieList {
+        return client.get("$baseUrl/3/search/movie") {
+            parameter("query", query)
             parameter("page", pageNumber)
         }.body()
     }

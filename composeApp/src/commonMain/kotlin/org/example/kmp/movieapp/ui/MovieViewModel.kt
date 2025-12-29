@@ -14,13 +14,12 @@ import org.example.kmp.movieapp.data.MovieRepository
 import org.example.kmp.movieapp.domain.MovieDetailsUiState
 import org.example.kmp.movieapp.domain.PopularMoviesUiState
 import org.example.kmp.movieapp.domain.RequestResult
-import org.example.kmp.movieapp.domain.SearchUiState
 
 @OptIn(FlowPreview::class)
 class MovieViewModel(
     private val movieRepository: MovieRepository
 ) : ViewModel() {
-    private val _searchResult = MutableStateFlow(SearchUiState())
+    private val _searchResult = MutableStateFlow(PopularMoviesUiState())
     val searchResult = _searchResult.asStateFlow()
 
     private val _searchQuery = MutableStateFlow("")
@@ -42,7 +41,7 @@ class MovieViewModel(
                     if (query.isNotBlank() && query.length >= 3) {
                         searchMovies(query)
                     } else {
-                        _searchResult.update { SearchUiState(ScreenUiState.Success) }
+                        _searchResult.update { PopularMoviesUiState(ScreenUiState.Success) }
                     }
                 }
         }
@@ -87,7 +86,7 @@ class MovieViewModel(
                     _searchResult.update {
                         it.copy(
                             screenState = ScreenUiState.Success,
-                            data = result.data.search
+                            data = result.data
                         )
                     }
                 }

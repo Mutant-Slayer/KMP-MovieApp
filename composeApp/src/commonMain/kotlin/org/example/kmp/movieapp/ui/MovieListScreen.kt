@@ -36,7 +36,7 @@ import org.example.kmp.movieapp.domain.PopularMoviesUiState
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun MovieSearchScreen(
+fun MovieListScreen(
     modifier: Modifier = Modifier,
     viewModel: MovieViewModel = koinViewModel()
 ) {
@@ -79,9 +79,15 @@ fun MovieSearchScreen(
             )
         }
     ) { paddingValues ->
+        val uiStateToShow = if (searchUiState.data?.results?.isNotEmpty() == true) {
+            searchUiState
+        } else {
+            popularMovieUiState
+        }
+
         MovieLists(
             modifier = modifier.padding(top = paddingValues.calculateTopPadding()),
-            searchUiState = popularMovieUiState,
+            moviesUiState = uiStateToShow,
             onClick = { }
         )
     }
@@ -90,10 +96,10 @@ fun MovieSearchScreen(
 @Composable
 fun MovieLists(
     modifier: Modifier = Modifier,
-    searchUiState: PopularMoviesUiState,
+    moviesUiState: PopularMoviesUiState,
     onClick: (Int) -> Unit,
 ) {
-    when (searchUiState.screenState) {
+    when (moviesUiState.screenState) {
         ScreenUiState.Loading -> {
             Box(
                 modifier = modifier.fillMaxSize(),
@@ -109,14 +115,14 @@ fun MovieLists(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = searchUiState.errorMessage ?: "An error occurred",
+                    text = moviesUiState.errorMessage ?: "An error occurred",
                     color = Color.Red
                 )
             }
         }
 
         ScreenUiState.Success -> {
-            val movieList = searchUiState.data?.results
+            val movieList = moviesUiState.data?.results
 
             if (movieList != null) {
                 Column(
