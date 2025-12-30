@@ -11,7 +11,6 @@ import org.example.kmp.movieapp.config.BuildKonfig
 import org.example.kmp.movieapp.data.ApiClient
 import org.example.kmp.movieapp.data.MovieRepository
 import org.example.kmp.movieapp.data.MovieRepositoryImpl
-import org.example.kmp.movieapp.data.createDatabase
 import org.example.kmp.movieapp.ui.MovieViewModel
 import org.example.kmp.movieapp.util.AppLogger
 import org.example.kmp.movieapp.util.AppLoggerImpl
@@ -42,8 +41,7 @@ val appModule = module {
     }
     viewModel { MovieViewModel(get()) }
     single { ApiClient(get(), get()) }
-    single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
-    single { createDatabase(get()) }
+    single<MovieRepository> { MovieRepositoryImpl(get()) }
     single { Logger.withTag("KMP App") }
     single<AppLogger> { AppLoggerImpl(get()) }
 }

@@ -41,7 +41,7 @@ kotlin {
     sqldelight {
         databases {
             create("AppDatabase") {
-                packageName.set("org.example.kmp.movieapp")
+                packageName.set("com.yourpackage.database")
             }
         }
     }
