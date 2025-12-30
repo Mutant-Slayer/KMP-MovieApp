@@ -1,0 +1,38 @@
+import kotlin.Boolean;
+
+CREATE TABLE MovieEntity(
+    id INTEGER PRIMARY KEY NOT NULL,
+    adult INTEGER AS Boolean NOT NULL,
+    backdropPath TEXT,
+    genreIds TEXT NOT NULL,
+    originalLanguage TEXT NOT NULL,
+    originalTitle TEXT NOT NULL,
+    overview TEXT NOT NULL,
+    popularity REAL NOT NULL,
+    posterPath TEXT,
+    releaseDate TEXT NOT NULL,
+    title TEXT NOT NULL,
+    video INTEGER AS Boolean NOT NULL,
+    voteAverage REAL NOT NULL,
+    voteCount INTEGER NOT NULL,
+    page INTEGER NOT NULL
+);
+
+insertOrReplace:
+INSERT OR REPLACE INTO MovieEntity(
+    id, adult, backdropPath, genreIds, originalLanguage, originalTitle,
+    overview, popularity, posterPath, releaseDate, title, video,
+    voteAverage, voteCount, page
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+
+getMoviesByPage:
+SELECT * FROM MovieEntity
+WHERE page = ?
+ORDER BY popularity DESC;
+
+getAllMovies:
+SELECT * FROM MovieEntity
+ORDER BY page, popularity DESC;
+
+deleteByPage:
+DELETE FROM MovieEntity WHERE page = ?;
