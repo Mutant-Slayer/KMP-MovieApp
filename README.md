@@ -43,6 +43,51 @@ We use TMDB API for fetching movie data.
 **Koin**: Dependency injection\
 **Jetpack Compose**: Modern declarative multiplatform UI
 
+## Setup Instructions
+
+### Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+| Tool               | Version          | Purpose                                     |
+|--------------------|------------------|---------------------------------------------|
+| **JDK**            | 17 or higher     | Java Development Kit for Kotlin compilation |
+| **Android Studio** | Ladybug or later | Android development IDE                     |
+| **Xcode**          | 15.0+            | iOS development (Mac only)                  |
+| **CocoaPods**      | Latest version   | iOS dependency management                   |
+
+**Installation Links:**
+
+- [Download JDK](https://www.oracle.com/java/technologies/downloads/)
+- [Download Android Studio](https://developer.android.com/studio)
+- [Download Xcode](https://developer.apple.com/xcode/) (Mac App Store)
+- [Install CocoaPods](https://cocoapods.org/)
+
+---
+
+### Getting TMDB API Key
+
+You'll need a free TMDB API key to fetch movie data:
+
+**Step 1:** Visit [TMDB](https://www.themoviedb.org/signup)
+
+**Step 2:** Create a free account
+
+- Fill in your details and verify your email
+
+**Step 3:** Navigate to API settings
+
+- Go to your profile → **Settings** → **API**
+- Click **Create` or **Request an API Key**
+- Choose **Developer** option
+- Accept the terms of use
+
+**Step 4:** Copy your API key
+
+- Once generated, copy the **API Key (v3 auth)**
+
+> 💡 **Note:** Keep your API key secure and never commit it to version control
+
 ### Configuration
 
 Create a `local.properties` file in the project root:
