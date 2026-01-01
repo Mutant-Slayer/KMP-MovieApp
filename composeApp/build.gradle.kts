@@ -41,7 +41,7 @@ kotlin {
     sqldelight {
         databases {
             create("AppDatabase") {
-                packageName.set("com.yourpackage.database")
+                packageName.set("org.example.kmp.movieapp")
             }
         }
     }
@@ -77,6 +77,7 @@ kotlin {
             implementation(libs.kermit.logging)
             implementation(libs.kotlinx.datetime)
             implementation(libs.sqlite.bundled)
+            implementation(libs.connectivity)
         }
         androidMain.dependencies {
             implementation(compose.preview)
