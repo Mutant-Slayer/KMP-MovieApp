@@ -26,7 +26,7 @@ fun App() {
 
     LaunchedEffect(networkStatus) {
         when (networkStatus) {
-            NetworkStatus.NoInternet, NetworkStatus.Lost -> {
+            NetworkStatus.NoInternet, NetworkStatus.Lost, NetworkStatus.Unavailable -> {
                 snackbarHostState.showSnackbar(
                     message = "No internet connection. Using offline data.",
                     duration = SnackbarDuration.Indefinite
@@ -43,7 +43,7 @@ fun App() {
 
     Scaffold(
         snackbarHost = { SnackbarHost(snackbarHostState) }
-    ) { innerPadding ->
+    ) { _ ->
         NavHost(
             navController = navController,
             startDestination = Screen.MovieList,

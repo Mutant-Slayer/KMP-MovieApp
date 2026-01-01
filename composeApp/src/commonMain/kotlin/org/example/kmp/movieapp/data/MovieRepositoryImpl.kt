@@ -47,7 +47,7 @@ class MovieRepositoryImpl(
             if (localMovies.isEmpty()) {
                 emit(RequestResult.Error(e.message ?: "Unknown Error"))
             } else {
-                emit(RequestResult.Error("Offline Mode: Showing cached data"))
+                emit(RequestResult.Success(localMovies))
             }
         }
     }
