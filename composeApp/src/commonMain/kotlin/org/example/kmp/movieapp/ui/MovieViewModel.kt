@@ -52,28 +52,31 @@ class MovieViewModel(
     }
 
     fun getMovieList() {
-        _popularMovies.update { it.copy(screenState = ScreenUiState.Loading) }
         viewModelScope.launch {
-            when (val result = movieRepository.getPopularMovieList()) {
-                is RequestResult.Success -> {
-                    _popularMovies.update {
-                        it.copy(
-                            screenState = ScreenUiState.Success,
-                            data = result.data
-                        )
+            movieRepository.getPopularMovieList().collect { result ->
+                when (result) {
+                    is RequestResult.Loading -> {
+                        _popularMovies.update { it.copy(screenState = ScreenUiState.Loading) }
+                    }
+
+                    is RequestResult.Success -> {
+                        _popularMovies.update {
+                            it.copy(
+                                screenState = ScreenUiState.Success,
+                                data = result.data
+                            )
+                        }
+                    }
+
+                    is RequestResult.Error -> {
+                        _popularMovies.update {
+                            it.copy(
+                                screenState = ScreenUiState.Error,
+                                errorMessage = result.message
+                            )
+                        }
                     }
                 }
-
-                is RequestResult.Error -> {
-                    _popularMovies.update {
-                        it.copy(
-                            screenState = ScreenUiState.Error,
-                            errorMessage = result.message
-                        )
-                    }
-                }
-
-                else -> {}
             }
         }
     }

@@ -120,45 +120,43 @@ fun MovieLists(
         }
 
         ScreenUiState.Success -> {
-            val movieList = moviesUiState.data?.results
+            val movieList = moviesUiState.data
 
-            if (movieList != null) {
-                Column(
-                    modifier = modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    movieList.forEach { item ->
-                        Card(
+            Column(
+                modifier = modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                movieList.forEach { item ->
+                    Card(
+                        modifier = Modifier
+                            .clickable { onClick(item.id.toInt()) }
+                            .fillMaxWidth()
+                            .padding(horizontal = 4.dp),
+                        border = BorderStroke(width = 1.dp, color = Color.Black),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White,
+                            contentColor = Color.Black
+                        )
+                    ) {
+                        Row(
                             modifier = Modifier
-                                .clickable { onClick(item.id) }
                                 .fillMaxWidth()
-                                .padding(horizontal = 4.dp),
-                            border = BorderStroke(width = 1.dp, color = Color.Black),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White,
-                                contentColor = Color.Black
-                            )
+                                .padding(8.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
                         ) {
-                            Row(
+                            AsyncImage(
+                                model = "https://image.tmdb.org/t/p/w342/${item.posterPath}",
+                                contentDescription = item.title,
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                AsyncImage(
-                                    model = "https://image.tmdb.org/t/p/w342/${item.posterPath}",
-                                    contentDescription = item.title,
-                                    modifier = Modifier
-                                        .size(80.dp)
-                                        .clip(RoundedCornerShape(4.dp)),
-                                    contentScale = ContentScale.Crop,
-                                )
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(text = "Title : " + item.title)
-                                    Text(text = "Language : " + item.originalLanguage)
-                                }
+                                    .size(80.dp)
+                                    .clip(RoundedCornerShape(4.dp)),
+                                contentScale = ContentScale.Crop,
+                            )
+                            Column(modifier = Modifier.weight(1f)) {
+                                Text(text = "Title : " + item.title)
+                                Text(text = "Language : " + item.originalLanguage)
                             }
                         }
                     }

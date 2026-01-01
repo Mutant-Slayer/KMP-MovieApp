@@ -7,6 +7,7 @@ import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.header
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
+import org.example.kmp.movieapp.AppDatabase
 import org.example.kmp.movieapp.config.BuildKonfig
 import org.example.kmp.movieapp.data.ApiClient
 import org.example.kmp.movieapp.data.MovieRepository
@@ -40,15 +41,16 @@ val appModule = module {
         it?.close()
     }
     viewModel { MovieViewModel(get()) }
+    single { AppDatabase(get()) }
     single { ApiClient(get(), get()) }
-    single<MovieRepository> { MovieRepositoryImpl(get()) }
+    single<MovieRepository> { MovieRepositoryImpl(get(), get()) }
     single { Logger.withTag("KMP App") }
     single<AppLogger> { AppLoggerImpl(get()) }
 }
 
-fun initKoin(config: KoinAppDeclaration? = null) {
+fun initKoin(platformModule: org.koin.core.module.Module, config: KoinAppDeclaration? = null) {
     startKoin {
         config?.invoke(this)
-        modules(appModule)
+        modules(appModule, platformModule)
     }
 }
