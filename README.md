@@ -43,6 +43,16 @@ We use TMDB API for fetching movie data.
 **Koin**: Dependency injection\
 **Jetpack Compose**: Modern declarative multiplatform UI
 
+## Video Recording
+
+### Android
+
+https://github.com/user-attachments/assets/546ad2bb-e0ba-4f67-b5ae-cda1911b64e8
+
+### IOS
+
+https://github.com/user-attachments/assets/c300d298-f97b-465a-ac0e-861d9c897f69
+
 ## Setup Instructions
 
 ### Prerequisites
