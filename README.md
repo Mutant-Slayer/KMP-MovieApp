@@ -1,14 +1,15 @@
 # KMP-MovieApp
 
 A Kotlin Multiplatform (KMP) application for browsing movies,  
-built for Android and iOS platforms with shared business logic and native UI implementations.
+built for Android and iOS platforms with shared business logic and compose UI implementations.
 
 ## Features
 
 📱 **Movie List**: Browse popular and trending movies\
 🔍 **Search**: Search for movies by title\
 📄 **Movie Details**: View detailed information about any movie\
-🎨 **Cross Platform UI**: Compose UI implementations for optimal user experience
+🎨 **Cross Platform UI**: Compose UI implementations for optimal user experience\
+🏪 **Offline caching** : Added support for offline caching of list screen using SQLDelight
 
 ## Implementation Status
 
@@ -18,7 +19,7 @@ built for Android and iOS platforms with shared business logic and native UI imp
 - [ ] Pagination
 - [x] Movie detail screen
 - [x] Search functionality
-- [ ] Local Data caching
+- [x] Local Data caching
 
 ## API Choice
 
